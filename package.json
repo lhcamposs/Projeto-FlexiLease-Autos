@@ -1,0 +1,44 @@
+{
+  "name": "projeto-flexilease-autos",
+  "version": "1.0.0",
+  "description": "O projeto consiste no desenvolvimento de uma FULL API REST para uma locaqdora de carros, utilizando as tecnologias e conhecimentos aprendido nos cursos.",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server.ts",
+    "test": "jest",
+    "build": "tsc",
+    "start": "node ./dist/index.js",
+    "lint": "eslint .",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lhcamposs/Projeto-FlexiLease-Autos.git"
+  },
+  "author": "Luan Henrique Campos Soares <lhcampossoares@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lhcamposs/Projeto-FlexiLease-Autos/issues"
+  },
+  "homepage": "https://github.com/lhcamposs/Projeto-FlexiLease-Autos#readme",
+  "dependencies": {
+    "express": "^4.21.0",
+    "reflect-metadata": "^0.2.2",
+    "sqlite3": "^5.1.7",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.3.0",
+    "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.9.0",
+    "prettier": "3.3.3",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.1.0"
+  }
+}
