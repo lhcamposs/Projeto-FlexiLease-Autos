@@ -15,19 +15,12 @@ export default [
   eslintPluginPrettierRecommended,
   {
     rules: {
-      '@typescript-eslint/interface-name-prefix': 'off',
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-empty-function': 'off',
-      '@typescript-eslint/no-empty-interface': 'off',
-      '@typescript-eslint/no-namespace': 'off',
-      'no-unused-vars': 'off',
-      'no-undef': 'off',
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_' },
-      ],
+      'no-console': 'warn',
+      'no-unused-vars': 'warn',
+      'no-unused-expressions': 'warn',
+      'no-unreachable': 'warn',
     },
   },
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
 ]

@@ -4,7 +4,7 @@
   "description": "O projeto consiste no desenvolvimento de uma FULL API REST para uma locaqdora de carros, utilizando as tecnologias e conhecimentos aprendido nos cursos.",
   "main": "index.ts",
   "scripts": {
-    "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/index.ts",
     "test": "jest",
     "build": "tsc",
     "start": "node ./dist/index.js",
