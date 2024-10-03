@@ -14,11 +14,17 @@ class CarModel {
   @Column()
   valuePerDay: number;
 
-  @Column()
+  @Column('simple-array')
   acessories: string[];
 
   @Column()
-  numberOfPassengers: string[];
+  numberOfPassengers: number;
+
+  @Column()
+  created_at: Date;
+
+  @Column()
+  updated_at: Date;
 }
 
 export default CarModel;
