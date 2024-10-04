@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import CreateCarService from '../services/cars/createCarService';
 import ListCarService from '../services/cars/listCarService';
 import ShowCarService from '../services/cars/showCarService';
+import UpdateCarService from '../services/cars/updateCarSevice';
 
 class CarController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -53,6 +54,25 @@ class CarController {
     const showCar = new ShowCarService();
 
     const car = await showCar.execute(Number(id));
+
+    return res.status(200).json(car);
+  }
+
+  public async update(req: Request, res: Response): Promise<Response> {
+    const { model, year, valuePerDay, acessories, numberOfPassengers } =
+      req.body;
+    const { id } = req.params;
+
+    const createCar = new UpdateCarService();
+    const carId = Number(id);
+    const car = await createCar.execute({
+      id: carId,
+      model,
+      year,
+      valuePerDay,
+      acessories,
+      numberOfPassengers,
+    });
 
     return res.status(200).json(car);
   }
