@@ -26,6 +26,10 @@ class CreateCarService {
       numberOfPassengers,
     });
 
+    if (year >= 1950 && year <= 2023) {
+      throw new Error('Ano do carro não compativel');
+    }
+
     await carRepository.save(car);
 
     return car;
