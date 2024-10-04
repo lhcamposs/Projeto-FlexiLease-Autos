@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('cars')
 class CarModel {
@@ -20,10 +25,10 @@ class CarModel {
   @Column()
   numberOfPassengers: number;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @CreateDateColumn()
   updated_at: Date;
 }
 
