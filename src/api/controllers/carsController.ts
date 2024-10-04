@@ -3,6 +3,7 @@ import CreateCarService from '../services/cars/createCarService';
 import ListCarService from '../services/cars/listCarService';
 import ShowCarService from '../services/cars/showCarService';
 import UpdateCarService from '../services/cars/updateCarSevice';
+import DeleteCarService from '../services/cars/deleteCarService';
 
 class CarController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -75,6 +76,16 @@ class CarController {
     });
 
     return res.status(200).json(car);
+  }
+
+  public async delete(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    const deleteCar = new DeleteCarService();
+
+    await deleteCar.execute(Number(id));
+
+    return res.status(204).send();
   }
 }
 

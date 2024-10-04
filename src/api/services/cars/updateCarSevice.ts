@@ -31,6 +31,10 @@ class UpdateCarService {
       throw new error('Id diferente do padrão', 404);
     }
 
+    if (year >= 1950 && year <= 2023) {
+      throw new Error('Ano do carro não compativel');
+    }
+
     car.model = model;
     car.year = year;
     car.valuePerDay = valuePerDay;
