@@ -1,24 +1,16 @@
 import CarModel from '@/api/models/car.model';
 import { AppDataSource } from '@/database/data-source';
 
-interface IRequestUpdateCar {
+interface IRequestAcessoriesUpdate {
   id: number;
-  model: string;
-  year: number;
-  valuePerDay: number;
   acessories: string[];
-  numberOfPassengers: number;
 }
 
-class UpdateCarService {
+class UpdateAcessoryService {
   public async execute({
     id,
-    model,
-    year,
-    valuePerDay,
     acessories,
-    numberOfPassengers,
-  }: IRequestUpdateCar): Promise<CarModel | null> {
+  }: IRequestAcessoriesUpdate): Promise<CarModel> {
     const carRepository = AppDataSource.getRepository(CarModel);
     const car = await carRepository.findOneBy({ id });
 
@@ -30,20 +22,21 @@ class UpdateCarService {
       throw new Error('Id diferente do padrão');
     }
 
-    if (year >= 1950 && year <= 2023) {
-      throw new Error('Ano do carro não compativel');
-    }
-
-    car.model = model;
-    car.year = year;
-    car.valuePerDay = valuePerDay;
     car.acessories = acessories;
-    car.numberOfPassengers = numberOfPassengers;
 
     await carRepository.save(car);
+    // const existingAcessory = car.acessories.findIndex(
+    //   acessories => acessories.toLowerCase() === acessories.toLowerCase(),
+    // );
+
+    // if (existingAcessory !== -1) {
+    //   car.acessories[existingAcessory] = acessories;
+    // } else {
+    //   car.acessories.push(acessories);
+    // }
 
     return car;
   }
 }
 
-export default UpdateCarService;
+export default UpdateAcessoryService;

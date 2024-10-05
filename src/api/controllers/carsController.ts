@@ -4,6 +4,7 @@ import ListCarService from '../services/cars/listCarService';
 import ShowCarService from '../services/cars/showCarService';
 import UpdateCarService from '../services/cars/updateCarSevice';
 import DeleteCarService from '../services/cars/deleteCarService';
+import UpdateAcessoryService from '../services/cars/updateAcessoryService';
 
 class CarController {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -64,9 +65,9 @@ class CarController {
       req.body;
     const { id } = req.params;
 
-    const createCar = new UpdateCarService();
+    const updateCar = new UpdateCarService();
     const carId = Number(id);
-    const car = await createCar.execute({
+    const car = await updateCar.execute({
       id: carId,
       model,
       year,
@@ -86,6 +87,21 @@ class CarController {
     await deleteCar.execute(Number(id));
 
     return res.status(204).send();
+  }
+
+  public async updateAcessory(req: Request, res: Response): Promise<Response> {
+    const { acessories } = req.body;
+
+    const { id } = req.params;
+
+    const updateAcessory = new UpdateAcessoryService();
+    const carId = Number(id);
+    const car = await updateAcessory.execute({
+      id: carId,
+      acessories,
+    });
+
+    return res.json(car).status(200).send();
   }
 }
 
