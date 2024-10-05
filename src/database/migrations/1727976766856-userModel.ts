@@ -36,6 +36,10 @@ export class UserModel1727976766856 implements MigrationInterface {
             type: 'string',
           },
           {
+            name: 'qualified',
+            type: 'boolean',
+          },
+          {
             name: 'created_at',
             type: 'timestamp with time zone',
             default: 'now()',

@@ -28,6 +28,9 @@ class UserModel {
   @Column()
   password: string;
 
+  @Column()
+  qualified: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 

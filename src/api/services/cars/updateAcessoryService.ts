@@ -25,15 +25,6 @@ class UpdateAcessoryService {
     car.acessories = acessories;
 
     await carRepository.save(car);
-    // const existingAcessory = car.acessories.findIndex(
-    //   acessories => acessories.toLowerCase() === acessories.toLowerCase(),
-    // );
-
-    // if (existingAcessory !== -1) {
-    //   car.acessories[existingAcessory] = acessories;
-    // } else {
-    //   car.acessories.push(acessories);
-    // }
 
     return car;
   }
