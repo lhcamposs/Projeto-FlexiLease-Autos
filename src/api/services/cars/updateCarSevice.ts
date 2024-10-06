@@ -30,7 +30,7 @@ class UpdateCarService {
       throw new Error('Id diferente do padrão');
     }
 
-    if (year >= 1950 && year <= 2023) {
+    if (year > 1950 && year < 2023) {
       throw new Error('Ano do carro não compativel');
     }
 

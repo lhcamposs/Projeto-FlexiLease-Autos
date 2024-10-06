@@ -13,7 +13,7 @@ export class CarModel1727975101231 implements MigrationInterface {
           },
           {
             name: 'model',
-            type: 'string',
+            type: 'varchar',
           },
           {
             name: 'year',
@@ -21,11 +21,11 @@ export class CarModel1727975101231 implements MigrationInterface {
           },
           {
             name: 'valuePerDay',
-            type: 'int',
+            type: 'decimal',
           },
           {
             name: 'acessories',
-            type: 'string[]',
+            type: 'varchar[]',
           },
           {
             name: 'numberOfPassengers',

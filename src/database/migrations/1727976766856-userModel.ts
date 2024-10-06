@@ -13,11 +13,11 @@ export class UserModel1727976766856 implements MigrationInterface {
           },
           {
             name: 'name',
-            type: 'string',
+            type: 'text',
           },
           {
             name: 'cpf',
-            type: 'string',
+            type: 'varchar',
           },
           {
             name: 'birth',
@@ -25,11 +25,12 @@ export class UserModel1727976766856 implements MigrationInterface {
           },
           {
             name: 'cep',
-            type: 'string',
+            type: 'varchar',
           },
           {
             name: 'email',
-            type: 'string',
+            type: 'varchar',
+            isUnique: true,
           },
           {
             name: 'password',
@@ -38,6 +39,7 @@ export class UserModel1727976766856 implements MigrationInterface {
           {
             name: 'qualified',
             type: 'boolean',
+            default: true,
           },
           {
             name: 'created_at',
