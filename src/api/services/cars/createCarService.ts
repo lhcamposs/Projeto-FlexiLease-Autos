@@ -18,17 +18,27 @@ class CreateCarService {
     numberOfPassengers,
   }: IRequestCreateCar): Promise<CarModel> {
     const carRepository = AppDataSource.getRepository(CarModel);
-    const car = await carRepository.create({
-      model,
-      year,
-      valuePerDay,
-      acessories,
-      numberOfPassengers,
-    });
 
     if (year > 1950 && year < 2023) {
       throw new Error('Ano do carro não compativel');
     }
+
+    if (!acessories || acessories.length === 0) {
+      throw new Error('É necessario ter pelo menos um acessorio');
+    }
+
+    const uniqueAcessories = [...new Set(acessories)];
+    if (uniqueAcessories.length !== acessories.length) {
+      throw new Error('Não pode haver acessorios repetidos');
+    }
+
+    const car = await carRepository.create({
+      model,
+      year,
+      valuePerDay,
+      acessories: uniqueAcessories,
+      numberOfPassengers,
+    });
 
     await carRepository.save(car);
 

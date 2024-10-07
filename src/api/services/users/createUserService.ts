@@ -23,6 +23,16 @@ class CreateUserService {
   }: IRequestCreateUser): Promise<UserModel> {
     const userRepository = AppDataSource.getRepository(UserModel);
 
+    const existingCpf = await userRepository.findOne({ where: { cpf } });
+    if (existingCpf) {
+      throw new Error('Cpf já cadastrado');
+    }
+
+    const existingEmail = await userRepository.findOne({ where: { email } });
+    if (existingEmail) {
+      throw new Error('Email já cadastrado');
+    }
+
     const age = differenceInYears(new Date(), birth);
 
     const qualified = age >= 18;

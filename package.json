@@ -23,6 +23,7 @@
   "homepage": "https://github.com/lhcamposs/Projeto-FlexiLease-Autos#readme",
   "dependencies": {
     "axios": "^1.7.7",
+    "celebrate": "^15.0.3",
     "date-fns": "^4.1.0",
     "express": "^4.21.0",
     "reflect-metadata": "^0.2.2",
