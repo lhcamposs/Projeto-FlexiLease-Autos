@@ -1,6 +1,7 @@
 import fetchAddresByCep from '@/api/midlewares/fetchAddressByCep';
 import UserModel from '@/api/models/user.model';
 import { AppDataSource } from '@/database/data-source';
+import { hash } from 'bcryptjs';
 import { differenceInYears } from 'date-fns';
 
 interface IRequestCreateUser {
@@ -34,6 +35,8 @@ class CreateUserService {
       throw new Error('Email já cadastrado');
     }
 
+    const hashedPassword = await hash(password, 8);
+
     const age = differenceInYears(new Date(), birth);
 
     const qualified = age >= 18;
@@ -46,7 +49,7 @@ class CreateUserService {
       birth,
       cep,
       email,
-      password,
+      password: hashedPassword,
       qualified,
       ...userAddress,
     });
