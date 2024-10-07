@@ -1,3 +1,4 @@
+import fetchAddresByCep from '@/api/midlewares/fetchAddressByCep';
 import UserModel from '@/api/models/user.model';
 import { AppDataSource } from '@/database/data-source';
 import { differenceInYears } from 'date-fns';
@@ -37,6 +38,8 @@ class CreateUserService {
 
     const qualified = age >= 18;
 
+    const userAddress = await fetchAddresByCep(cep);
+
     const user = userRepository.create({
       name,
       cpf,
@@ -45,6 +48,7 @@ class CreateUserService {
       email,
       password,
       qualified,
+      ...userAddress,
     });
 
     await userRepository.save(user);
