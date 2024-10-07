@@ -1,7 +1,8 @@
 import UserModel from '@/api/models/user.model';
 import { AppDataSource } from '@/database/data-source';
 import { compare } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
+import { sign, Secret } from 'jsonwebtoken';
+import authConfig from '../../utils/auth';
 
 interface IRequestAuth {
   email: string;
@@ -26,9 +27,9 @@ class AuthService {
       throw new Error('Combimação de email/senha erradas.');
     }
 
-    const token = sign({}, '0ba730c4fe29a5047f7a84a220c4225e', {
+    const token = sign({}, authConfig.jwt.secret as Secret, {
       subject: user.id.toString(),
-      expiresIn: '1d',
+      expiresIn: authConfig.jwt.expiresIn,
     });
 
     return {
