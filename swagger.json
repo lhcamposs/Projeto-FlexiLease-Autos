@@ -1,0 +1,1426 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Projeto FlexiLease Autos",
+    "version": "1.0.0",
+    "description": "O projeto consiste no desenvolvimento de uma FULL API REST para uma locadora de carros, utilizando as tecnologias e conhecimentos aprendidos nos cursos",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "Luan Henrique Campos Soares",
+      "email": "lhcampossoares@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/v1/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Carros",
+      "description": "Operações sobre os carros"
+    },
+    {
+      "name": "Usuários",
+      "description": "Operações sobre as usuarios"
+    },
+    {
+      "name": "Reservas",
+      "description": "Operações sobre os reservas de carros"
+    }
+  ],
+  "paths": {
+    "/car": {
+      "post": {
+        "summary": "Registra um carro",
+        "tags": [
+          "Carros"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "model",
+                  "color",
+                  "year",
+                  "valuePerDay",
+                  "acessories",
+                  "numberOfPassengers"
+                ],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "example": "GM S10 2.8"
+                  },
+                  "color": {
+                    "type": "string",
+                    "example": "white"
+                  },
+                  "year": {
+                    "type": "integer",
+                    "example": 2022,
+                    "description": "O ano deve estar entre 1950 e 2023"
+                  },
+                  "valuePerDay": {
+                    "type": "number",
+                    "example": 50
+                  },
+                  "acessories": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "Air conditioner"
+                        }
+                      }
+                    },
+                    "minItems": 1,
+                    "description": "Não pode haver acessórios repetidos"
+                  },
+                  "numberOfPassengers": {
+                    "type": "integer",
+                    "example": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Carro registrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "model": {
+                      "type": "string",
+                      "example": "GM S10 2.8"
+                    },
+                    "color": {
+                      "type": "string",
+                      "example": "white"
+                    },
+                    "year": {
+                      "type": "integer",
+                      "example": 2022
+                    },
+                    "valuePerDay": {
+                      "type": "number",
+                      "example": 50
+                    },
+                    "acessories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Air conditioner"
+                          }
+                        }
+                      }
+                    },
+                    "numberOfPassengers": {
+                      "type": "integer",
+                      "example": 5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação dos dados fornecidos"
+          }
+        }
+      },
+      "get": {
+        "summary": "Lista todos os carros",
+        "tags": [
+          "Carros"
+        ],
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Ano de fabricação do carro"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de carros retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "car": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "model": {
+                            "type": "string",
+                            "example": "GM S10 2.8"
+                          },
+                          "color": {
+                            "type": "string",
+                            "example": "white"
+                          },
+                          "year": {
+                            "type": "integer",
+                            "example": 2022
+                          },
+                          "valuePerDay": {
+                            "type": "number",
+                            "example": 50
+                          },
+                          "acessories": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "example": "Air conditioner"
+                                }
+                              }
+                            }
+                          },
+                          "numberOfPassengers": {
+                            "type": "integer",
+                            "example": 5
+                          }
+                        }
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "example": 100
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "offset": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "offsets": {
+                      "type": "integer",
+                      "example": 10
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/car/{id}": {
+      "get": {
+        "summary": "Lista um carro pelo ID",
+        "tags": [
+          "Carros"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carro retornado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "model": {
+                      "type": "string",
+                      "example": "GM S10 2.8"
+                    },
+                    "color": {
+                      "type": "string",
+                      "example": "white"
+                    },
+                    "year": {
+                      "type": "integer",
+                      "example": 2023
+                    },
+                    "valuePerDay": {
+                      "type": "number",
+                      "example": 45
+                    },
+                    "acessories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "4x4 traction"
+                          }
+                        }
+                      }
+                    },
+                    "numberOfPassengers": {
+                      "type": "integer",
+                      "example": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro no formato do ID fornecido"
+          },
+          "404": {
+            "description": "Carro não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove um carro",
+        "tags": [
+          "Carros"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Carro removido com sucesso"
+          },
+          "400": {
+            "description": "Erro no formato do ID fornecido"
+          },
+          "404": {
+            "description": "Carro não encontrado"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualiza um carro",
+        "tags": [
+          "Carros"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "model",
+                  "color",
+                  "year",
+                  "valuePerDay",
+                  "acessories",
+                  "numberOfPassengers"
+                ],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "example": "GM S10 2.8"
+                  },
+                  "color": {
+                    "type": "string",
+                    "example": "white"
+                  },
+                  "year": {
+                    "type": "integer",
+                    "example": 2022
+                  },
+                  "valuePerDay": {
+                    "type": "number",
+                    "example": 50
+                  },
+                  "acessories": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "Air conditioner"
+                        }
+                      }
+                    }
+                  },
+                  "numberOfPassengers": {
+                    "type": "integer",
+                    "example": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Carro atualizado com sucesso"
+          },
+          "400": {
+            "description": "Erro de validação dos dados fornecidos"
+          },
+          "404": {
+            "description": "Carro não encontrado"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Modifica um acessório de um carro (adição ou remoção)",
+        "tags": [
+          "Carros"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Air Conditioner"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acessório atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "model": {
+                      "type": "string",
+                      "example": "GM S10 2.8"
+                    },
+                    "color": {
+                      "type": "string",
+                      "example": "white"
+                    },
+                    "year": {
+                      "type": "integer",
+                      "example": 2023
+                    },
+                    "valuePerDay": {
+                      "type": "number",
+                      "example": 45
+                    },
+                    "acessories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Air Conditioner"
+                          }
+                        }
+                      }
+                    },
+                    "numberOfPassengers": {
+                      "type": "integer",
+                      "example": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação ou ID incorreto"
+          },
+          "404": {
+            "description": "Carro não encontrado"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "summary": "Registra um usuário",
+        "tags": [
+          "Usuários"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "cpf",
+                  "birth",
+                  "cep",
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Joãozinho Ciclano"
+                  },
+                  "cpf": {
+                    "type": "string",
+                    "example": "131.147.860-49",
+                    "description": "CPF válido e único no sistema"
+                  },
+                  "birth": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "03/03/2000"
+                  },
+                  "cep": {
+                    "type": "string",
+                    "example": "90010-510",
+                    "description": "O CEP será usado para buscar o endereço completo através da API Via CEP"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "joazinho@email.com",
+                    "description": "Email válido e único no sistema"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "123456",
+                    "description": "A senha deve ter pelo menos 6 caracteres"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário registrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Joãozinho Ciclano"
+                    },
+                    "cpf": {
+                      "type": "string",
+                      "example": "131.147.860-49"
+                    },
+                    "birth": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "03/03/2000"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "joazinho@email.com"
+                    },
+                    "qualified": {
+                      "type": "boolean",
+                      "example": true,
+                      "description": "Indica se o usuário é maior de idade (18+)"
+                    },
+                    "cep": {
+                      "type": "string",
+                      "example": "90010-510"
+                    },
+                    "neighbordhood": {
+                      "type": "string",
+                      "example": "Centro Histórico"
+                    },
+                    "street": {
+                      "type": "string",
+                      "example": "Largo do Trabalho"
+                    },
+                    "complement": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "city": {
+                      "type": "string",
+                      "example": "Porto Alegre"
+                    },
+                    "uf": {
+                      "type": "string",
+                      "example": "RS"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação dos dados fornecidos"
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "summary": "Busca um usuário pelo ID",
+        "tags": [
+          "Usuários"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário retornado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Joãozinho Ciclano"
+                    },
+                    "cpf": {
+                      "type": "string",
+                      "example": "131.147.860-49"
+                    },
+                    "birth": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "03/03/2000"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "joazinho@email.com"
+                    },
+                    "qualified": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "cep": {
+                      "type": "string",
+                      "example": "90010-510"
+                    },
+                    "neighbordhood": {
+                      "type": "string",
+                      "example": "Centro Histórico"
+                    },
+                    "street": {
+                      "type": "string",
+                      "example": "Largo do Trabalho"
+                    },
+                    "complement": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "city": {
+                      "type": "string",
+                      "example": "Porto Alegre"
+                    },
+                    "uf": {
+                      "type": "string",
+                      "example": "RS"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro no formato do ID fornecido"
+          },
+          "403": {
+            "description": "Acesso negado, o usuário só pode acessar suas próprias informações"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualiza um usuário",
+        "tags": [
+          "Usuários"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "cpf",
+                  "birth",
+                  "cep",
+                  "email"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Joãozinho Ciclano"
+                  },
+                  "cpf": {
+                    "type": "string",
+                    "example": "131.147.860-49"
+                  },
+                  "birth": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "03/03/2000"
+                  },
+                  "cep": {
+                    "type": "string",
+                    "example": "90010-510"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "joazinho@email.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "123456",
+                    "description": "Se presente, atualiza a senha do usuário"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso"
+          },
+          "400": {
+            "description": "Erro de validação dos dados fornecidos"
+          },
+          "403": {
+            "description": "Acesso negado, o usuário só pode atualizar suas próprias informações"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove um usuário",
+        "tags": [
+          "Usuários"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Usuário removido com sucesso"
+          },
+          "400": {
+            "description": "Erro no formato do ID fornecido"
+          },
+          "403": {
+            "description": "Acesso negado, o usuário só pode deletar sua própria"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      }
+    },
+    "/reserve": {
+      "post": {
+        "summary": "Registra uma reserva",
+        "tags": [
+          "Reservas"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "startDate",
+                  "endDate",
+                  "carId"
+                ],
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "example": "20/04/2023",
+                    "description": "Data de início da reserva"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "example": "30/04/2023",
+                    "description": "Data de término da reserva"
+                  },
+                  "carId": {
+                    "type": "integer",
+                    "example": 1,
+                    "description": "ID do carro a ser reservado"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Reserva criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "startDate": {
+                      "type": "string",
+                      "example": "20/04/2023"
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "example": "30/04/2023"
+                    },
+                    "finalValue": {
+                      "type": "string",
+                      "example": "500,00"
+                    },
+                    "userId": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "carId": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação dos dados fornecidos"
+          }
+        }
+      },
+      "get": {
+        "summary": "Lista todas as reservas",
+        "tags": [
+          "Reservas"
+        ],
+        "parameters": [
+          {
+            "name": "finalValue",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "500",
+              "description": "Filtra as reservas pelo valor final"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 10,
+              "description": "Número máximo de reservas por página"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 0,
+              "description": "Número de itens para pular antes de começar a mostrar as reservas"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reservas listadas com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reserves": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "startDate": {
+                            "type": "string",
+                            "example": "20/04/2023"
+                          },
+                          "endDate": {
+                            "type": "string",
+                            "example": "30/04/2023"
+                          },
+                          "finalValue": {
+                            "type": "string",
+                            "example": "500,00"
+                          },
+                          "userId": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "carId": {
+                            "type": "integer",
+                            "example": 1
+                          }
+                        }
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "example": 100
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "offset": {
+                      "type": "integer",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reserve/{id}": {
+      "get": {
+        "summary": "Busca uma reserva pelo ID",
+        "tags": [
+          "Reservas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reserva retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "startDate": {
+                      "type": "string",
+                      "example": "20/04/2023"
+                    },
+                    "endDate": {
+                      "type": "string",
+                      "example": "30/04/2023"
+                    },
+                    "finalValue": {
+                      "type": "string",
+                      "example": "500,00"
+                    },
+                    "userId": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "carId": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro no formato do ID fornecido"
+          },
+          "403": {
+            "description": "Acesso negado, apenas o próprio usuário pode visualizar suas reservas"
+          },
+          "404": {
+            "description": "Reserva não encontrada"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualiza uma reserva",
+        "tags": [
+          "Reservas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "example": "20/04/2023"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "example": "30/04/2023"
+                  },
+                  "finalValue": {
+                    "type": "string",
+                    "example": "500,00"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reserva atualizada com sucesso"
+          },
+          "400": {
+            "description": "Erro de validação dos dados fornecidos"
+          },
+          "403": {
+            "description": "Acesso negado, apenas o próprio usuário pode atualizar suas reservas"
+          },
+          "404": {
+            "description": "Reserva não encontrada"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove uma reserva",
+        "tags": [
+          "Reservas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Reserva removida com sucesso"
+          },
+          "400": {
+            "description": "Erro no formato do ID fornecido"
+          },
+          "403": {
+            "description": "Acesso negado, apenas o próprio usuário pode remover suas reservas"
+          },
+          "404": {
+            "description": "Reserva não encontrada"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CarResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "model": {
+            "type": "string",
+            "example": "GM S10 2.8"
+          },
+          "color": {
+            "type": "string",
+            "example": "white"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2023
+          },
+          "valuePerDay": {
+            "type": "number",
+            "format": "float",
+            "example": 45
+          },
+          "acessories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "4x4 traction"
+                }
+              }
+            }
+          },
+          "numberOfPassengers": {
+            "type": "integer",
+            "example": 4
+          }
+        },
+        "xml": {
+          "name": "CarResponse"
+        }
+      },
+      "CarRequest": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "GM S10 2.8"
+          },
+          "color": {
+            "type": "string",
+            "example": "white"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2023
+          },
+          "valuePerDay": {
+            "type": "number",
+            "format": "float",
+            "example": 45
+          },
+          "acessories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "4x4 traction"
+                }
+              }
+            }
+          },
+          "numberOfPassengers": {
+            "type": "integer",
+            "example": 4
+          }
+        },
+        "xml": {
+          "name": "CarRequest"
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Joãozinho Ciclano"
+          },
+          "cpf": {
+            "type": "string",
+            "example": "131.147.860-49"
+          },
+          "birth": {
+            "type": "string",
+            "example": "03/03/2000"
+          },
+          "email": {
+            "type": "string",
+            "example": "joazinho@email.com"
+          },
+          "qualified": {
+            "type": "boolean",
+            "example": true
+          },
+          "cep": {
+            "type": "string",
+            "example": "90010-510"
+          },
+          "neighborhood": {
+            "type": "string",
+            "example": "Centro Histórico"
+          },
+          "street": {
+            "type": "string",
+            "example": "Largo do Trabalho"
+          },
+          "complement": {
+            "type": "string",
+            "example": ""
+          },
+          "city": {
+            "type": "string",
+            "example": "Porto Alegre"
+          },
+          "uf": {
+            "type": "string",
+            "example": "RS"
+          }
+        },
+        "xml": {
+          "name": "UserResponse"
+        }
+      },
+      "UserRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Joãozinho Ciclano"
+          },
+          "cpf": {
+            "type": "string",
+            "example": "131.147.860-49"
+          },
+          "birth": {
+            "type": "string",
+            "example": "03/03/2000"
+          },
+          "cep": {
+            "type": "string",
+            "example": "90010-510"
+          },
+          "email": {
+            "type": "string",
+            "example": "joazinho@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "123456"
+          }
+        },
+        "xml": {
+          "name": "UserRequest"
+        }
+      },
+      "ReserveResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "startDate": {
+            "type": "string",
+            "example": "20/04/2023"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "30/04/2023"
+          },
+          "finalValue": {
+            "type": "string",
+            "example": "500,00"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "carId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          }
+        },
+        "xml": {
+          "name": "ReserveResponse"
+        }
+      },
+      "ReserveRequest": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "example": "20/04/2023"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "30/04/2023"
+          },
+          "carId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          }
+        },
+        "xml": {
+          "name": "ReserveRequest"
+        }
+      }
+    }
+  }
+}
