@@ -19,6 +19,12 @@ class ReserveModel {
   @Column()
   carId: number;
 
+  @Column()
+  finalValue: number;
+
+  @Column()
+  userId: number;
+
   @CreateDateColumn()
   created_at: Date;
 

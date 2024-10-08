@@ -24,6 +24,14 @@ export class ReserveModel1727977198232 implements MigrationInterface {
             type: 'int',
           },
           {
+            name: 'finalValue',
+            type: 'decimal',
+          },
+          {
+            name: 'userId',
+            type: 'int',
+          },
+          {
             name: 'created_at',
             type: 'timestamp with time zone',
             default: 'now()',

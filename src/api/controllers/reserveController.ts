@@ -5,15 +5,16 @@ class Reservecontroller {
   public async create(req: Request, res: Response): Promise<Response> {
     try {
       const { startDate, endDate, carId, finalValue } = req.body;
-      const userId = parseInt(req.params.userId);
+
+      const { id: userId } = req.user;
 
       const createReserve = new CreateReserveService();
       const reserve = await createReserve.execute({
         startDate,
         endDate,
-        finalValue,
         carId,
-        userId,
+        finalValue,
+        userId: Number(userId),
       });
 
       return res.status(201).json(reserve);

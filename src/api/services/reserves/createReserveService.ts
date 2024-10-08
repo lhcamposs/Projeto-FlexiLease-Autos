@@ -2,7 +2,7 @@ import CarModel from '@/api/models/car.model';
 import ReserveModel from '@/api/models/reserve.model';
 import UserModel from '@/api/models/user.model';
 import { AppDataSource } from '@/database/data-source';
-import { differenceInCalendarDays } from 'date-fns';
+import { differenceInDays } from 'date-fns';
 
 interface IRequestCreateReserve {
   startDate: Date;
@@ -33,8 +33,8 @@ class CreateReserveService {
       throw new Error('User não encontrado.');
     }
 
-    const difInDays = differenceInCalendarDays(endDate, startDate);
-    const finalValue = car.valuePerDay * difInDays;
+    const numberOfDays = differenceInDays(endDate, startDate);
+    const finalValue = car.valuePerDay * numberOfDays;
     if (finalValue == 0) {
       throw new Error('Sem valor final.');
     }
@@ -56,11 +56,15 @@ class CreateReserveService {
       throw new Error('Já existe uma reserva nesse carro');
     }
 
-    const reserve = reserveRepository.create({
+    const reserve = await reserveRepository.create({
       startDate,
       endDate,
       carId,
+      finalValue,
+      userId,
     });
+
+    await reserveRepository.save(reserve);
 
     return reserve;
   }
