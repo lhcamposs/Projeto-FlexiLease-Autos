@@ -20,3 +20,5 @@ AppDataSource.initialize()
     console.log('Database inicializada');
   })
   .catch(error => console.log(error));
+
+export default app;
