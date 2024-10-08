@@ -8,7 +8,7 @@ const reserveController = new Reservecontroller();
 reserveRouter.post('/', isAuthenticated, reserveController.create);
 reserveRouter.get('/', reserveController.list);
 reserveRouter.get('/:id', reserveController.show);
-// reserveRouter.put('/:id', reserveController);
+reserveRouter.put('/:id', reserveController.update);
 // reserveRouter.delete('/:id', reserveController);
 
 export default reserveRouter;
