@@ -19,7 +19,7 @@ class CreateCarService {
   }: IRequestCreateCar): Promise<CarModel> {
     const carRepository = AppDataSource.getRepository(CarModel);
 
-    if (year > 1950 && year < 2023) {
+    if (year < 1950 && year > 2023) {
       throw new Error('Ano do carro não compativel');
     }
 
