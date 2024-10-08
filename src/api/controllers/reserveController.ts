@@ -3,6 +3,7 @@ import CreateReserveService from '../services/reserves/createReserveService';
 import ListReserveService from '../services/reserves/listReserveService';
 import ShowReserveService from '../services/reserves/showReserveService';
 import UpdateReserveService from '../services/reserves/updateReserveService';
+import DeleteReserveService from '../services/reserves/deleteReserveService';
 
 class Reservecontroller {
   public async create(req: Request, res: Response): Promise<Response> {
@@ -99,6 +100,30 @@ class Reservecontroller {
       });
 
       return res.status(200).json(reserve);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  public async delete(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      const userId = req.user.id;
+
+      if (!/^\d+$/.test(id)) {
+        return res.status(400).json({ error: 'Id diferente do padrao' });
+      }
+
+      if (!id) {
+        return res.status(404).json({ error: 'Caro não encontrado' });
+      }
+
+      const deleteCar = new DeleteReserveService();
+
+      await deleteCar.execute({ id: Number(id), userId });
+
+      return res.status(204).send();
     } catch (error) {
       return res.status(400).json({ error: error.message });
     }
